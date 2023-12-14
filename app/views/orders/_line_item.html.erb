@@ -1,0 +1,19 @@
+<tr class="line-item">
+    <td class="col-md-2">
+      <%= image_tag line_item.product.image.thumb.url %>
+    </td>
+    <td class="col-md-5">
+      <h4><%= line_item.product.name %></h4>
+      <p><%= line_item.product.description %></p>
+    </td>
+    <td class="col-md-2">
+      <p><%= line_item.quantity %></p>
+    </td>
+    <td class="col-md-2">
+    <p><%= number_to_currency(line_item.item_price_cents / 100) %></p>
+  </td>
+    <td class="col-md-3">
+      <p><%= number_to_currency(line_item.total_price_cents / 100) %></p>
+    </td>
+
+</tr>

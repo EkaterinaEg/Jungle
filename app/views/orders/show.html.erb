@@ -1,3 +1,4 @@
+
 <section class="orders-show">
 
   <header class="page-header">
@@ -5,9 +6,26 @@
   </header>
 
   <div class="order-summary jumbotron">
-    <h4>Thank you for your order!</h4>
+    <h4><%= @order.email %>, thank you for your order!</h4>
   </div>
 
-  <%= link_to "Continue Shopping", root_path, class: 'btn btn-lg btn-primary' %>
+  <div class="panel panel-default items">
+  <table class="table table-bordered">
+  <thead>
+    <tr>
+      <th colspan="2" >Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @order.line_items.each do |line_item| %>
+    <%= render partial: 'line_item', locals: { line_item: line_item } %>
+  <% end %>
+  </tbody>
+ 
+  </table>
+</div>
 
 </section>
