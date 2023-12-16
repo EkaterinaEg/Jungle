@@ -5,6 +5,13 @@
     <h1>The Jungle</h1>
     <h2>Where you can find any plants!</h2>
   </section>
+  <section class="login my-3 text-white fs-4 fw-bold">
+  <% if current_user %>
+  Signed in as <%= current_user.name %> | <%= link_to "Logout", '/logout', class: "link-light" %>
+<% else %>
+  <%= link_to 'Login', '/login', class: "link-light"  %> | <%= link_to 'Signup', '/signup', class: "link-light" %>
+<% end %>
+  </section>
 </header>
 <nav class="navbar navbar-expand-lg navbar-dark sticky-nav">
   <div class="container">
