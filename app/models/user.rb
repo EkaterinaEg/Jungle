@@ -2,7 +2,6 @@
 class User < ApplicationRecord
   has_secure_password
 
-<<<<<<< HEAD
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }
@@ -10,23 +9,20 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, length: { minimum: 5 }, on: :create
 
 
+  # def self.authenticate_with_credentials(email, password)
+  #   user = User.find_by_email(email)
+
   def self.authenticate_with_credentials(email, password)
-    user = User.find_by_email(email)
-=======
-  def self.authenticate_with_credentials(email, password)
-    user = User.find_by_email(email)
+    formatted_email = email.downcase.strip
+
+    user = User.find_by_email(formatted_email)
     puts user.inspect
->>>>>>> master
     if user
       user.authenticate(password)
     else
       nil
     end
   end
-<<<<<<< HEAD
 
-
-=======
->>>>>>> master
 end
 

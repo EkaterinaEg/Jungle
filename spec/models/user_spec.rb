@@ -7,7 +7,8 @@ RSpec.describe User, type: :model do
     it 'requires all fields' do
       user = User.new(
         email: nil,
-        name: nil,
+        first_name: nil,
+        last_name: nil,
         password: nil,
         password_confirmation: nil
       )
@@ -15,7 +16,8 @@ RSpec.describe User, type: :model do
       user.valid?
 
       expect(user.errors[:email]).to include("can't be blank")
-      expect(user.errors[:name]).to include("can't be blank")
+      expect(user.errors[:first_name]).to include("can't be blank")
+      expect(user.errors[:last_name]).to include("can't be blank")
       expect(user.errors[:password]).to include("can't be blank")
       expect(user.errors[:password_confirmation]).to include("can't be blank")
     end
@@ -30,7 +32,7 @@ RSpec.describe User, type: :model do
       expect(user.errors[:password_confirmation]).to include("doesn't match Password")
     end
 
-#     It must be created with a password and password_confirmation fields
+#It must be created with a password and password_confirmation fields
 # These need to match so you should have an example for where they are not the same
 # These are required when creating the model so you should also have an example for this
     it 'requires password and password_confirmation' do
@@ -45,21 +47,20 @@ RSpec.describe User, type: :model do
     # Emails must be unique (not case sensitive; for example, TEST@TEST.com should not be allowed if test@test.COM is in the database)
     it 'Emails must be unique (case insensitive)' do
       current_user = User.create(
-        name: 'John',
+        first_name: 'John',
+        last_name: 'Jo',
         email: 'test@test.COM',
         password: 'password',
         password_confirmation: 'password'
       )
       user = User.new(
-        name: 'John',
+        first_name: 'John',
+        last_name: 'Jo',
         email: 'TEST@TEST.com',
         password: 'password2',
         password_confirmation: 'password2'
       )
-    #   puts current_user.email
-    #   puts user.email
-    #   puts User.where(email: user.email).to_sql
-
+   
     expect(user).not_to be_valid
     end
 
@@ -68,12 +69,24 @@ RSpec.describe User, type: :model do
     it 'requires a minimum password length on create' do
       user = User.new(
         email: 'TEST@TEST.com',
-        password: 'five', # Password less than 8 characters
+        password: 'five', 
         password_confirmation: 'five'
       )
       user.valid?
     
       expect(user.errors[:password]).to include('is too short (minimum is 5 characters)')
+    end
+    it "should be authenticated successfully with spaces before and/or after email" do
+      current_user = User.create(first_name: "John", last_name: "Jo", email: "test@test.com", password: "five5", password_confirmation: "five5")
+      user = User.authenticate_with_credentials("     test@test.com  ", "five5")
+
+      expect(user).to eq(current_user)
+    end
+    it "should be authenticated successfully with the wrong case for their email" do
+      current_user = User.create(first_name: "John", last_name: "Jo", email: "test@test.com", password: "five5", password_confirmation: "five5")
+      user = User.authenticate_with_credentials("TEST@TEST.com   ", "five5")
+
+      expect(user).to eq(current_user)
     end
   end
 end
