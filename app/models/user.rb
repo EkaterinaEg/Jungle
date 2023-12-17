@@ -2,6 +2,7 @@
 class User < ApplicationRecord
   has_secure_password
 
+<<<<<<< HEAD
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }
@@ -11,13 +12,21 @@ class User < ApplicationRecord
 
   def self.authenticate_with_credentials(email, password)
     user = User.find_by_email(email)
+=======
+  def self.authenticate_with_credentials(email, password)
+    user = User.find_by_email(email)
+    puts user.inspect
+>>>>>>> master
     if user
       user.authenticate(password)
     else
       nil
     end
   end
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> master
 end
 
