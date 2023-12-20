@@ -16,7 +16,7 @@ class User < ApplicationRecord
     formatted_email = email.downcase.strip
 
     user = User.find_by_email(formatted_email)
-    puts user.inspect
+
     if user
       user.authenticate(password)
     else
